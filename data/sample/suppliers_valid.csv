@@ -1,0 +1,16 @@
+supplier_code,company_name,contact_name,contact_email,contact_phone,country,payment_terms,currency,status,rating
+SUP-00001,Supplier Corp 1,Contact 1,contact1@supplier1.com,+15550000001,CN,net_60,USD,inactive,4.1
+SUP-00002,Supplier Corp 2,Contact 2,contact2@supplier2.com,+15550000002,DE,prepaid,USD,active,2.7
+SUP-00003,Supplier Corp 3,Contact 3,contact3@supplier3.com,+15550000003,CA,prepaid,USD,active,3.3
+SUP-00004,Supplier Corp 4,Contact 4,contact4@supplier4.com,+15550000004,CN,net_90,USD,inactive,3.9
+SUP-00005,Supplier Corp 5,Contact 5,contact5@supplier5.com,+15550000005,GB,prepaid,USD,active,3.4
+SUP-00006,Supplier Corp 6,Contact 6,contact6@supplier6.com,+15550000006,DE,net_90,USD,active,3.1
+SUP-00007,Supplier Corp 7,Contact 7,contact7@supplier7.com,+15550000007,US,net_60,USD,active,2.8
+SUP-00008,Supplier Corp 8,Contact 8,contact8@supplier8.com,+15550000008,CN,net_60,USD,active,3.0
+SUP-00009,Supplier Corp 9,Contact 9,contact9@supplier9.com,+15550000009,DE,net_90,USD,active,5.0
+SUP-00010,Supplier Corp 10,Contact 10,contact10@supplier10.com,+15550000010,CA,net_90,USD,active,3.4
+SUP-00011,Supplier Corp 11,Contact 11,contact11@supplier11.com,+15550000011,GB,net_30,USD,active,3.2
+SUP-00012,Supplier Corp 12,Contact 12,contact12@supplier12.com,+15550000012,US,net_90,USD,active,4.1
+SUP-00013,Supplier Corp 13,Contact 13,contact13@supplier13.com,+15550000013,DE,net_30,USD,active,3.9
+SUP-00014,Supplier Corp 14,Contact 14,contact14@supplier14.com,+15550000014,DE,prepaid,USD,inactive,3.4
+SUP-00015,Supplier Corp 15,Contact 15,contact15@supplier15.com,+15550000015,US,net_90,USD,inactive,2.8

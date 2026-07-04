@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: etl-platform-api
+  namespace: etl-platform
+  labels:
+    app: etl-platform
+    component: api
+spec:
+  type: ClusterIP
+  selector:
+    app: etl-platform
+    component: api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: etl-platform-dashboard
+  namespace: etl-platform
+  labels:
+    app: etl-platform
+    component: dashboard
+spec:
+  type: ClusterIP
+  selector:
+    app: etl-platform
+    component: dashboard
+  ports:
+    - name: http
+      port: 8501
+      targetPort: 8501
+      protocol: TCP

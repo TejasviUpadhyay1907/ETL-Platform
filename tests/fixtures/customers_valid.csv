@@ -1,0 +1,6 @@
+customer_id,first_name,last_name,email,phone,country,city,status
+CUST-001,Alice,Smith,alice@example.com,+1-555-0101,US,New York,active
+CUST-002,Bob,Jones,bob@example.com,+1-555-0102,US,Chicago,active
+CUST-003,Carol,White,carol@example.com,,GB,London,active
+CUST-004,Dave,Brown,dave@example.com,+1-555-0104,CA,Toronto,inactive
+CUST-005,Eve,Taylor,eve@example.com,+1-555-0105,US,Seattle,active

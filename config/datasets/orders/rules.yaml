@@ -1,0 +1,54 @@
+# Business validation rules for the Orders dataset.
+# Each rule has a unique code, description, field target, check type, and severity.
+# severity: error   → record is rejected
+# severity: warning → record is flagged but not rejected
+dataset_type: orders
+version: "1.0"
+
+rules:
+  - rule_code: ORD_001
+    description: "order_id must not be null or empty"
+    field: order_id
+    check: not_null
+    severity: error
+
+  - rule_code: ORD_002
+    description: "order_total must be greater than zero"
+    field: order_total
+    check: greater_than
+    value: 0
+    severity: error
+
+  - rule_code: ORD_003
+    description: "order_date must be a parseable date value"
+    field: order_date
+    check: valid_date
+    severity: error
+
+  - rule_code: ORD_004
+    description: "customer_id must not be null or empty"
+    field: customer_id
+    check: not_null
+    severity: error
+
+  - rule_code: ORD_005
+    description: "status must be one of the allowed values"
+    field: status
+    check: in_list
+    values: [pending, processing, shipped, delivered, cancelled, refunded]
+    severity: error
+
+  - rule_code: ORD_006
+    description: "quantity must be a positive integer when present"
+    field: quantity
+    check: greater_than_or_equal
+    value: 0
+    severity: warning
+    required: false
+
+  - rule_code: ORD_007
+    description: "order_total should not exceed 1,000,000 (flag for review)"
+    field: order_total
+    check: less_than
+    value: 1000000
+    severity: warning

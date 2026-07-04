@@ -1,0 +1,46 @@
+# =============================================================================
+# Enterprise ETL & Data Quality Platform — Development Dependencies
+# =============================================================================
+# These packages are ONLY for development and CI. Not installed in production.
+# =============================================================================
+
+# --- Include production dependencies -----------------------------------------
+-r requirements.txt
+
+# --- Testing -----------------------------------------------------------------
+pytest==8.3.4
+pytest-asyncio==0.24.0             # Async test support
+pytest-cov==6.0.0                  # Coverage reporting
+pytest-mock==3.14.0                # Mock objects for unit tests
+pytest-httpx==0.35.0               # Mock httpx requests in tests
+pytest-xdist==3.6.1                # Parallel test execution
+factory-boy==3.3.1                 # Test data factories
+faker==33.3.0                      # Fake data generation for fixtures
+freezegun==1.5.1                   # Freeze time in tests
+respx==0.21.1                      # HTTP request mocking
+
+# --- Code Quality & Formatting -----------------------------------------------
+black==24.10.0
+ruff==0.8.5
+isort==5.13.2
+mypy==1.14.0
+
+# Type stubs
+types-pyyaml==6.0.12.20240917
+types-passlib==1.7.7.20240819
+types-python-jose==3.3.4.20240106
+
+# --- Pre-commit --------------------------------------------------------------
+pre-commit==4.0.1
+
+# --- Database Testing --------------------------------------------------------
+pytest-postgresql==6.1.1          # PostgreSQL fixtures for integration tests
+
+# --- Development Utilities ---------------------------------------------------
+ipython==8.31.0                    # Interactive shell
+rich==13.9.4                       # Pretty terminal output for scripts
+watchfiles==1.0.4                  # File watching (used by uvicorn --reload)
+
+# --- Documentation -----------------------------------------------------------
+# mkdocs==1.6.1
+# mkdocs-material==9.5.47

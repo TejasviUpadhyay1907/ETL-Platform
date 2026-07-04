@@ -1,0 +1,17 @@
+dataset_type: inventory
+version: "1.0"
+derived_fields:
+  - name: stock_value
+    expression: "quantity * unit_cost"
+    description: "Total stock value at warehouse"
+  - name: is_low_stock
+    expression: "quantity <= reorder_point"
+    description: "True when stock is at or below reorder point"
+field_mappings:
+  inventory_id: inventory_id
+  product_id: product_id
+  warehouse_id: warehouse_id
+  quantity: quantity_on_hand
+  reorder_point: reorder_point
+  unit_cost: unit_cost
+  last_updated: last_updated_date

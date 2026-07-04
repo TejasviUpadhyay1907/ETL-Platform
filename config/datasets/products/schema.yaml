@@ -1,0 +1,28 @@
+dataset_type: products
+version: "1.0"
+columns:
+  - name: product_id
+    type: string
+    required: true
+  - name: product_name
+    type: string
+    required: true
+  - name: category
+    type: string
+    required: true
+  - name: price
+    type: decimal
+    required: true
+  - name: cost
+    type: decimal
+    required: false
+  - name: sku
+    type: string
+    required: false
+  - name: brand
+    type: string
+    required: false
+  - name: is_active
+    type: boolean
+    required: false
+deduplication_key: [product_id]

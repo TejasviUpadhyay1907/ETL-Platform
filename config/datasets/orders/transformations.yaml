@@ -1,0 +1,33 @@
+# Transformation rules for the Orders dataset.
+# Applied after cleaning — produces the target database schema.
+dataset_type: orders
+version: "1.0"
+
+derived_fields:
+  - name: order_age_days
+    expression: "days_since(order_date)"
+    description: "Number of days since the order was placed"
+
+  - name: order_year
+    expression: "year(order_date)"
+    description: "Year extracted from order_date"
+
+  - name: order_month
+    expression: "month(order_date)"
+    description: "Month extracted from order_date (1-12)"
+
+  - name: is_high_value
+    expression: "order_total >= 1000"
+    description: "Boolean flag for high-value orders"
+
+# Column renaming: source_name → target_db_column
+field_mappings:
+  order_id: order_id
+  customer_id: customer_id
+  order_date: order_date
+  order_total: order_total
+  status: order_status
+  product_id: product_id
+  quantity: quantity
+  shipping_address: shipping_address
+  notes: notes

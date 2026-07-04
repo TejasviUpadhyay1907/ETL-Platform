@@ -1,0 +1,114 @@
+# =============================================================================
+# ETL Platform .gitignore
+# =============================================================================
+
+# ---- Environment & Secrets --------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+secrets/
+
+# ---- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ---- Virtual Environments ---------------------------------------------------
+.venv/
+venv/
+ENV/
+env/
+.env/
+
+# ---- Testing & Coverage -----------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+*.py,cover
+nosetests.xml
+test-results/
+junit*.xml
+
+# ---- Type Checking ----------------------------------------------------------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# ---- Linting ----------------------------------------------------------------
+.ruff_cache/
+
+# ---- IDE -------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---- Runtime Data (managed by application, not version controlled) ----------
+data/raw/
+data/reports/
+data/archive/
+logs/
+*.log
+
+# Keep .gitkeep files (directory placeholders)
+!data/raw/.gitkeep
+!data/reports/.gitkeep
+!data/archive/.gitkeep
+!logs/.gitkeep
+
+# Keep sample data CSVs (demo files — safe to commit)
+!data/sample/
+data/backups/
+
+# ---- Database ---------------------------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+
+# ---- Documentation builds ---------------------------------------------------
+docs/_build/
+site/
+
+# ---- Jupyter Notebooks -------------------------------------------------------
+.ipynb_checkpoints
+*.ipynb
+
+# ---- OS files ---------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# ---- Alembic generated files ------------------------------------------------
+# (versions directory is tracked — migrations should be in version control)
+# migrations/versions/ is NOT ignored

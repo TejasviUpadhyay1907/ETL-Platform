@@ -1,0 +1,26 @@
+first_name,last_name,email,phone,date_of_birth,gender,address,city,state,country,postal_code,customer_segment,status
+Alice,Smith,alice.smith1@example.com,+17985889238,1993-03-02,non_binary,1313 Main St,Chicago,IL,US,34356,standard,active
+Bob,Davis,bob.davis2@example.com,+16132225033,1997-10-02,non_binary,1344 Main St,Phoenix,AZ,US,64948,gold,active
+David,Moore,david.moore3@example.com,+14443717484,1968-11-21,female,7492 Main St,Chicago,IL,US,51441,standard,active
+Henry,Jackson,henry.jackson4@example.com,+17762022200,1994-04-17,female,2171 Main St,New York,NY,US,55745,standard,active
+Frank,Wilson,frank.wilson5@example.com,+13615489900,1979-10-26,non_binary,8667 Main St,Los Angeles,CA,US,11025,gold,active
+Carol,Wilson,carol.wilson6@example.com,+13182093546,1977-05-20,male,5618 Main St,New York,NY,US,36685,gold,active
+Henry,Wilson,henry.wilson7@example.com,+12521947939,1977-01-01,female,2144 Main St,Phoenix,AZ,US,93507,gold,active
+Henry,Thomas,henry.thomas8@example.com,+19225371158,1967-02-23,male,8939 Main St,Los Angeles,CA,US,14722,gold,active
+Iris,Brown,iris.brown9@example.com,+16402301685,1979-06-26,male,5863 Main St,Phoenix,AZ,US,37535,silver,active
+Frank,Thomas,frank.thomas10@example.com,+16167353532,1975-03-26,male,6756 Main St,New York,NY,US,13248,silver,active
+Grace,Davis,grace.davis11@example.com,+14732632771,1984-01-28,female,3645 Main St,Chicago,IL,US,36158,platinum,active
+Eva,Davis,eva.davis12@example.com,+14281244164,1985-06-09,male,4574 Main St,Chicago,IL,US,56025,platinum,active
+Frank,Smith,frank.smith13@example.com,+13189985279,1971-10-09,male,1777 Main St,Phoenix,AZ,US,88193,platinum,active
+Frank,Taylor,frank.taylor14@example.com,+18206232894,1984-10-07,female,728 Main St,Chicago,IL,US,67154,standard,active
+Iris,Davis,iris.davis15@example.com,+15725412146,1981-10-11,non_binary,2042 Main St,Phoenix,AZ,US,49363,gold,active
+Frank,Taylor,frank.taylor16@example.com,+19134023085,1972-07-22,female,2852 Main St,Houston,TX,US,90676,gold,active
+Iris,Smith,iris.smith17@example.com,+15113934443,1987-10-20,non_binary,5280 Main St,Houston,TX,US,70946,platinum,active
+David,Thomas,david.thomas18@example.com,+16849123780,1965-05-17,non_binary,5492 Main St,Houston,TX,US,22240,silver,active
+David,Davis,david.davis19@example.com,+13501251757,1975-08-20,male,7462 Main St,Chicago,IL,US,64321,silver,active
+Henry,Taylor,henry.taylor20@example.com,+14492511090,1966-07-08,male,8487 Main St,Houston,TX,US,70889,standard,active
+David,Jones,david.jones21@example.com,+16672368612,1993-09-20,female,7252 Main St,Phoenix,AZ,US,90301,platinum,active
+Henry,Brown,henry.brown22@example.com,+19619828777,1988-05-25,male,4544 Main St,Phoenix,AZ,US,78327,platinum,active
+Eva,Anderson,eva.anderson23@example.com,+12798305681,1975-05-11,female,8850 Main St,Los Angeles,CA,US,20561,silver,active
+David,Taylor,david.taylor24@example.com,+19102564505,1964-07-14,female,8891 Main St,Los Angeles,CA,US,71069,platinum,active
+David,Taylor,david.taylor25@example.com,+15988881320,1996-07-16,male,5764 Main St,New York,NY,US,49139,platinum,active

@@ -1,0 +1,87 @@
+{
+  "id": null,
+  "uid": "etl-system-health",
+  "title": "ETL Platform — System Health",
+  "tags": ["etl", "system"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "API Uptime",
+      "gridPos": {"h": 4, "w": 4, "x": 0, "y": 0},
+      "targets": [{"expr": "up{job=\"etl-api\"}", "legendFormat": "API"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "background"},
+      "fieldConfig": {"defaults": {"mappings": [{"type": "value", "options": {"1": {"text": "UP", "color": "green"}, "0": {"text": "DOWN", "color": "red"}}}]}}
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Request Rate (req/min)",
+      "gridPos": {"h": 4, "w": 4, "x": 4, "y": 0},
+      "targets": [{"expr": "sum(rate(etl_http_requests_total[1m])) * 60", "legendFormat": "req/min"}],
+      "fieldConfig": {"defaults": {"unit": "reqps", "decimals": 1}}
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Error Rate",
+      "gridPos": {"h": 4, "w": 4, "x": 8, "y": 0},
+      "targets": [{"expr": "sum(rate(etl_http_requests_total{status=~\"5..\"}[5m])) / sum(rate(etl_http_requests_total[5m])) * 100", "legendFormat": "error %"}],
+      "fieldConfig": {"defaults": {"unit": "percent", "thresholds": {"mode": "absolute", "steps": [{"value": 0, "color": "green"}, {"value": 1, "color": "yellow"}, {"value": 5, "color": "red"}]}}}
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Active Requests",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 0},
+      "targets": [{"expr": "etl_http_active_requests", "legendFormat": "active"}],
+      "fieldConfig": {"defaults": {"unit": "short"}}
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Request Rate by Status",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+      "targets": [
+        {"expr": "sum(rate(etl_http_requests_total{status=~\"2..\"}[1m])) * 60", "legendFormat": "2xx"},
+        {"expr": "sum(rate(etl_http_requests_total{status=~\"4..\"}[1m])) * 60", "legendFormat": "4xx"},
+        {"expr": "sum(rate(etl_http_requests_total{status=~\"5..\"}[1m])) * 60", "legendFormat": "5xx"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "short"}}
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "API Latency P50 / P95 / P99",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+      "targets": [
+        {"expr": "histogram_quantile(0.50, sum(rate(etl_http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p50"},
+        {"expr": "histogram_quantile(0.95, sum(rate(etl_http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p95"},
+        {"expr": "histogram_quantile(0.99, sum(rate(etl_http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p99"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "s"}}
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Memory Usage",
+      "gridPos": {"h": 6, "w": 12, "x": 0, "y": 12},
+      "targets": [{"expr": "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024 / 1024 / 1024", "legendFormat": "Used (GB)"}],
+      "fieldConfig": {"defaults": {"unit": "GB"}}
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "CPU Usage",
+      "gridPos": {"h": 6, "w": 12, "x": 12, "y": 12},
+      "targets": [{"expr": "100 - (avg(rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)", "legendFormat": "CPU %"}],
+      "fieldConfig": {"defaults": {"unit": "percent", "max": 100}}
+    }
+  ],
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {}
+}

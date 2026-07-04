@@ -1,0 +1,43 @@
+# =============================================================================
+# ETL Platform — Logging Configuration
+# =============================================================================
+
+logging:
+  level: INFO                    # Override with LOG_LEVEL env var
+  json_format: true              # JSON in production, plain text in development
+  file_path: logs/app.log
+  max_size_mb: 100
+  backup_count: 10
+  compression: gz
+
+  # Separate log files per concern (future enhancement)
+  # Aligns with architecture document — separate logs by category
+  categories:
+    api:
+      file: logs/api.log
+      level: INFO
+    pipeline:
+      file: logs/pipeline.log
+      level: INFO
+    database:
+      file: logs/database.log
+      level: WARNING
+    audit:
+      file: logs/audit.log
+      level: INFO
+    errors:
+      file: logs/error.log
+      level: ERROR
+
+  # Fields to mask in all log output
+  pii_fields:
+    - email
+    - phone
+    - phone_number
+    - credit_card
+    - card_number
+    - password
+    - secret_key
+    - api_key
+    - ssn
+    - date_of_birth

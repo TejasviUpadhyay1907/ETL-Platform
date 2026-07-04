@@ -1,0 +1,50 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.venv
+venv
+env
+.env
+*.egg-info
+dist
+build
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov
+.mypy_cache
+.ruff_cache
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Runtime data (mounted as volumes, not baked in)
+data/
+logs/
+
+# Documentation
+docs/
+*.md
+
+# Docker files themselves
+docker-compose*.yml
+docker/
+
+# CI
+.github/
+
+# Pre-commit
+.pre-commit-config.yaml

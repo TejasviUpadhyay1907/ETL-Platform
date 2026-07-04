@@ -1,0 +1,107 @@
+# =============================================================================
+# Enterprise ETL Platform — Monitoring Stack
+# =============================================================================
+# Prometheus + Grafana observability stack
+# Usage: docker-compose -f docker-compose.prod.yml -f docker-compose.monitoring.yml up -d
+# =============================================================================
+
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.55.0
+    container_name: etl_prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./docker/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - monitoring
+      - etl_prod_frontend
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: etl_grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-changeme}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_ROOT_URL: http://localhost:3000
+      GF_INSTALL_PLUGINS: ""
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: etl_node_exporter
+    restart: unless-stopped
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    container_name: etl_postgres_exporter
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: postgresql://${DB_USER:-etl_user}:${DB_PASSWORD:-etl_password}@db:5432/${DB_NAME:-etl_platform}?sslmode=disable
+    ports:
+      - "9187:9187"
+    networks:
+      - monitoring
+      - etl_prod_backend
+
+volumes:
+  prometheus_data:
+    driver: local
+    name: etl_prometheus_data
+  grafana_data:
+    driver: local
+    name: etl_grafana_data
+
+networks:
+  monitoring:
+    driver: bridge
+    name: etl_monitoring
+  etl_prod_backend:
+    external: true
+  etl_prod_frontend:
+    external: true

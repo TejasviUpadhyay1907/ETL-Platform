@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: etl-platform-network-policy
+  namespace: etl-platform
+spec:
+  podSelector:
+    matchLabels:
+      app: etl-platform
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: etl-platform
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8000
+        - protocol: TCP
+          port: 8501
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: etl-platform
+    - to:  # Allow DNS
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    - to:  # Allow HTTPS outbound
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+      ports:
+        - protocol: TCP
+          port: 443

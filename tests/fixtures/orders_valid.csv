@@ -1,0 +1,6 @@
+order_id,customer_id,order_date,order_total,status,quantity
+ORD-001,CUST-001,2025-01-15,250.00,delivered,2
+ORD-002,CUST-002,2025-01-16,89.99,shipped,1
+ORD-003,CUST-003,2025-01-17,1250.50,processing,5
+ORD-004,CUST-004,2025-01-18,45.00,pending,1
+ORD-005,CUST-005,2025-01-19,320.75,delivered,3

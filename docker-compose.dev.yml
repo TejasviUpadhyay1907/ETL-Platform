@@ -1,0 +1,43 @@
+# =============================================================================
+# Enterprise ETL Platform — Development Docker Compose Override
+# =============================================================================
+# Overrides production compose for local development:
+#   - Hot-reload enabled
+#   - Source code mounted as volume (immediate code changes)
+#   - Debug logging
+#   - Dev dependencies installed
+#   - No nginx (direct port access)
+#
+# Usage:
+#   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# =============================================================================
+
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    container_name: etl_platform_app_dev
+    volumes:
+      # Mount source code for hot-reload — changes reflect immediately
+      - ../app:/app/app:cached
+      - ../config:/app/config:cached
+      - ../migrations:/app/migrations:cached
+      - ../main.py:/app/main.py:cached
+      - ../data:/app/data
+      - ../logs:/app/logs
+    environment:
+      APP_ENV: development
+      LOG_LEVEL: DEBUG
+      DB_ECHO: "True"
+    ports:
+      - "8000:8000"
+
+  db:
+    ports:
+      - "5432:5432"
+    # In development, use a separate database to avoid polluting production data
+    environment:
+      POSTGRES_DB: etl_platform_dev

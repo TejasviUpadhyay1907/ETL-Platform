@@ -1,0 +1,18 @@
+dataset_type: products
+version: "1.0"
+derived_fields:
+  - name: margin
+    expression: "price - cost"
+    description: "Gross margin per unit"
+  - name: margin_pct
+    expression: "((price - cost) / price) * 100"
+    description: "Margin as a percentage of price"
+field_mappings:
+  product_id: product_id
+  product_name: product_name
+  category: category_name
+  price: unit_price
+  cost: unit_cost
+  sku: sku_code
+  brand: brand_name
+  is_active: is_active

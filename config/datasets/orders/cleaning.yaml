@@ -1,0 +1,48 @@
+# Cleaning strategies for the Orders dataset.
+# Per-field null handling, string normalization, and type correction rules.
+dataset_type: orders
+version: "1.0"
+
+field_strategies:
+  order_id:
+    null_strategy: drop_row      # Drop entire row if order_id is null
+    trim: true
+    string_case: upper
+
+  customer_id:
+    null_strategy: drop_row
+    trim: true
+
+  order_date:
+    null_strategy: drop_row
+    standardize_date: true       # Parse and convert to ISO 8601 (YYYY-MM-DD)
+
+  order_total:
+    null_strategy: drop_row
+    strip_currency: true         # Remove $, £, €, commas
+    strip_whitespace: true
+
+  status:
+    null_strategy: fill_default
+    default_value: unknown
+    string_case: lower
+    trim: true
+
+  product_id:
+    null_strategy: flag          # Don't drop — flag with sentinel value
+    sentinel_value: "MISSING"
+    trim: true
+
+  quantity:
+    null_strategy: fill_default
+    default_value: 1
+    strip_whitespace: true
+
+  shipping_address:
+    null_strategy: flag
+    trim: true
+
+  notes:
+    null_strategy: fill_default
+    default_value: ""
+    trim: true

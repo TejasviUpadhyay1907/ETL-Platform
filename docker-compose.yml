@@ -1,0 +1,115 @@
+# =============================================================================
+# Enterprise ETL Platform — Production Docker Compose
+# =============================================================================
+# Services:
+#   - app:      FastAPI application (4 workers)
+#   - db:       PostgreSQL 15 database
+#   - nginx:    Reverse proxy and static file server
+#
+# Usage:
+#   Start:    docker-compose up -d
+#   Logs:     docker-compose logs -f app
+#   Stop:     docker-compose down
+#   Rebuild:  docker-compose up -d --build
+# =============================================================================
+
+version: "3.9"
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL Database
+  # ---------------------------------------------------------------------------
+  db:
+    image: postgres:15-alpine
+    container_name: etl_platform_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-etl_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-etl_password}
+      POSTGRES_DB: ${DB_NAME:-etl_platform}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Expose only for local tools; remove in strict production
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-etl_user} -d ${DB_NAME:-etl_platform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - etl_network
+
+  # ---------------------------------------------------------------------------
+  # FastAPI Application
+  # ---------------------------------------------------------------------------
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: etl_platform_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ../.env
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${DB_USER:-etl_user}:${DB_PASSWORD:-etl_password}@db:5432/${DB_NAME:-etl_platform}
+      APP_ENV: production
+    volumes:
+      - app_data:/app/data
+      - app_logs:/app/logs
+    ports:
+      - "8000:8000"  # Direct access for development; use nginx in production
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/api/v1/health/ping').raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - etl_network
+
+  # ---------------------------------------------------------------------------
+  # Nginx Reverse Proxy
+  # ---------------------------------------------------------------------------
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: etl_platform_nginx
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../app/static:/app/static:ro
+    ports:
+      - "80:80"
+      # Uncomment for HTTPS:
+      # - "443:443"
+    networks:
+      - etl_network
+
+# ---------------------------------------------------------------------------
+# Named Volumes
+# ---------------------------------------------------------------------------
+volumes:
+  postgres_data:
+    driver: local
+    name: etl_platform_postgres_data
+  app_data:
+    driver: local
+    name: etl_platform_app_data
+  app_logs:
+    driver: local
+    name: etl_platform_app_logs
+
+# ---------------------------------------------------------------------------
+# Networks
+# ---------------------------------------------------------------------------
+networks:
+  etl_network:
+    driver: bridge
+    name: etl_platform_network

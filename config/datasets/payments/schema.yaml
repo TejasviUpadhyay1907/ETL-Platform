@@ -1,0 +1,28 @@
+dataset_type: payments
+version: "1.0"
+columns:
+  - name: payment_id
+    type: string
+    required: true
+  - name: order_id
+    type: string
+    required: true
+  - name: amount
+    type: decimal
+    required: true
+  - name: payment_method
+    type: string
+    required: true
+  - name: payment_date
+    type: date
+    required: true
+  - name: invoice_date
+    type: date
+    required: false
+  - name: transaction_status
+    type: string
+    required: true
+  - name: currency
+    type: string
+    required: false
+deduplication_key: [payment_id]

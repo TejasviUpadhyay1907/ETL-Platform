@@ -1,0 +1,24 @@
+dataset_type: suppliers
+version: "1.0"
+rules:
+  - rule_code: SUP_001
+    field: supplier_id
+    description: "supplier_id must not be null"
+    check: not_null
+    severity: error
+  - rule_code: SUP_002
+    field: supplier_name
+    description: "supplier_name must not be null"
+    check: not_null
+    severity: error
+  - rule_code: SUP_003
+    field: contact_email
+    description: "contact_email must be a valid email format"
+    check: valid_email
+    severity: error
+  - rule_code: SUP_004
+    field: contact_phone
+    description: "contact_phone should be a valid phone when present"
+    check: valid_phone
+    severity: warning
+    required: false

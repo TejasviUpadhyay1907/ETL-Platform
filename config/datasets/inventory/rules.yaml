@@ -1,0 +1,31 @@
+dataset_type: inventory
+version: "1.0"
+rules:
+  - rule_code: INV_001
+    field: inventory_id
+    description: "inventory_id must not be null"
+    check: not_null
+    severity: error
+  - rule_code: INV_002
+    field: product_id
+    description: "product_id must not be null"
+    check: not_null
+    severity: error
+  - rule_code: INV_003
+    field: warehouse_id
+    description: "warehouse_id must not be null"
+    check: not_null
+    severity: error
+  - rule_code: INV_004
+    field: quantity
+    description: "quantity must be zero or greater"
+    check: greater_than_or_equal
+    value: 0
+    severity: error
+  - rule_code: INV_005
+    field: unit_cost
+    description: "unit_cost must be non-negative when present"
+    check: greater_than_or_equal
+    value: 0
+    severity: warning
+    required: false

@@ -1,0 +1,25 @@
+dataset_type: suppliers
+version: "1.0"
+columns:
+  - name: supplier_id
+    type: string
+    required: true
+  - name: supplier_name
+    type: string
+    required: true
+  - name: contact_email
+    type: string
+    required: true
+  - name: contact_phone
+    type: string
+    required: false
+  - name: country
+    type: string
+    required: false
+  - name: payment_terms
+    type: string
+    required: false
+  - name: is_active
+    type: boolean
+    required: false
+deduplication_key: [supplier_id]

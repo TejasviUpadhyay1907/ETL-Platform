@@ -1,0 +1,31 @@
+dataset_type: suppliers
+version: "1.0"
+field_strategies:
+  supplier_id:
+    null_strategy: drop_row
+    trim: true
+    string_case: upper
+  supplier_name:
+    null_strategy: drop_row
+    string_case: title
+    trim: true
+  contact_email:
+    null_strategy: drop_row
+    string_case: lower
+    trim: true
+  contact_phone:
+    null_strategy: flag
+    trim: true
+  country:
+    null_strategy: fill_default
+    default_value: UNKNOWN
+    string_case: upper
+    trim: true
+  payment_terms:
+    null_strategy: fill_default
+    default_value: net_30
+    string_case: lower
+    trim: true
+  is_active:
+    null_strategy: fill_default
+    default_value: true

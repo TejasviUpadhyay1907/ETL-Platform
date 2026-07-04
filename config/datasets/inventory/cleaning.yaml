@@ -1,0 +1,26 @@
+dataset_type: inventory
+version: "1.0"
+field_strategies:
+  inventory_id:
+    null_strategy: drop_row
+    trim: true
+  product_id:
+    null_strategy: drop_row
+    trim: true
+  warehouse_id:
+    null_strategy: drop_row
+    trim: true
+    string_case: upper
+  quantity:
+    null_strategy: fill_default
+    default_value: 0
+  reorder_point:
+    null_strategy: fill_default
+    default_value: 10
+  unit_cost:
+    null_strategy: fill_default
+    default_value: 0
+    strip_currency: true
+  last_updated:
+    null_strategy: flag
+    standardize_date: true

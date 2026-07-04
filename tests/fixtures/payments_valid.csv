@@ -1,0 +1,6 @@
+payment_id,order_id,amount,payment_method,payment_date,transaction_status
+PAY-001,ORD-001,250.00,credit_card,2025-01-15,settled
+PAY-002,ORD-002,89.99,paypal,2025-01-16,settled
+PAY-003,ORD-003,1250.50,bank_transfer,2025-01-17,pending
+PAY-004,ORD-004,45.00,debit_card,2025-01-18,settled
+PAY-005,ORD-005,320.75,credit_card,2025-01-19,settled

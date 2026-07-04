@@ -1,0 +1,25 @@
+dataset_type: inventory
+version: "1.0"
+columns:
+  - name: inventory_id
+    type: string
+    required: true
+  - name: product_id
+    type: string
+    required: true
+  - name: warehouse_id
+    type: string
+    required: true
+  - name: quantity
+    type: integer
+    required: true
+  - name: reorder_point
+    type: integer
+    required: false
+  - name: unit_cost
+    type: decimal
+    required: false
+  - name: last_updated
+    type: date
+    required: false
+deduplication_key: [inventory_id]

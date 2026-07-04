@@ -1,0 +1,47 @@
+# =============================================================================
+# Enterprise ETL Platform — Development Dockerfile
+# =============================================================================
+# Development variant with:
+#   - Hot-reload via uvicorn --reload
+#   - Development dependencies installed
+#   - Source code mounted as volume (not copied)
+#   - Debug mode enabled
+# =============================================================================
+
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    APP_ENV=development
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    libssl-dev \
+    libffi-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install ALL dependencies (including dev)
+COPY requirements-dev.txt .
+RUN pip install --no-cache-dir -r requirements-dev.txt
+
+# Create runtime directories
+RUN mkdir -p /app/data/raw /app/data/reports /app/data/archive /app/logs
+
+# Source code is mounted as a volume in docker-compose.dev.yml
+# so we don't COPY it here — changes reflect immediately
+
+EXPOSE 8000
+
+# Development startup: hot-reload, single worker, debug logging
+CMD ["uvicorn", "main:app", \
+     "--host", "0.0.0.0", \
+     "--port", "8000", \
+     "--reload", \
+     "--reload-dir", "/app/app", \
+     "--log-level", "debug"]

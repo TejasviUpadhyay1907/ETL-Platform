@@ -1,0 +1,41 @@
+# Cleaning strategies for the Customers dataset
+dataset_type: customers
+version: "1.0"
+
+field_strategies:
+  customer_id:
+    null_strategy: drop_row
+    trim: true
+  first_name:
+    null_strategy: drop_row
+    string_case: title
+    trim: true
+  last_name:
+    null_strategy: drop_row
+    string_case: title
+    trim: true
+  email:
+    null_strategy: drop_row
+    string_case: lower
+    trim: true
+  phone:
+    null_strategy: flag
+    trim: true
+  country:
+    null_strategy: fill_default
+    default_value: UNKNOWN
+    string_case: upper
+    trim: true
+  city:
+    null_strategy: fill_default
+    default_value: UNKNOWN
+    string_case: title
+    trim: true
+  created_date:
+    null_strategy: flag
+    standardize_date: true
+  customer_segment:
+    null_strategy: fill_default
+    default_value: standard
+    string_case: lower
+    trim: true

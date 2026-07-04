@@ -1,0 +1,32 @@
+dataset_type: payments
+version: "1.0"
+field_strategies:
+  payment_id:
+    null_strategy: drop_row
+    trim: true
+  order_id:
+    null_strategy: drop_row
+    trim: true
+  amount:
+    null_strategy: drop_row
+    strip_currency: true
+  payment_method:
+    null_strategy: drop_row
+    string_case: lower
+    trim: true
+  payment_date:
+    null_strategy: drop_row
+    standardize_date: true
+  invoice_date:
+    null_strategy: flag
+    standardize_date: true
+  transaction_status:
+    null_strategy: fill_default
+    default_value: pending
+    string_case: lower
+    trim: true
+  currency:
+    null_strategy: fill_default
+    default_value: USD
+    string_case: upper
+    trim: true

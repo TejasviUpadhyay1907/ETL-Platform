@@ -1,0 +1,4 @@
+supplier_id,supplier_code,company_name,contact_email,country,status
+SUP-001,SUP-00001,Global Trade Partners,proc1@gtp.com,US,active
+SUP-002,SUP-00002,Pacific Rim Imports,proc2@pri.com,CN,active
+SUP-003,SUP-00003,Atlantic Supply Co,proc3@asc.com,GB,active

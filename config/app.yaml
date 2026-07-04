@@ -1,0 +1,39 @@
+# =============================================================================
+# ETL Platform — Application Default Configuration
+# =============================================================================
+# This file contains default configuration values.
+# Values here are overridden by environment variables at runtime.
+# NEVER put secrets or environment-specific values in this file.
+# =============================================================================
+
+app:
+  name: "ETL Platform"
+  version: "1.0.0"
+  description: "Enterprise ETL & Data Quality Platform"
+
+pipeline:
+  chunk_size: 10000
+  max_concurrent_runs: 5
+  stage_timeout_seconds: 3600
+  enable_scheduler: true
+
+ingestion:
+  duplicate_policy: reject         # reject | reprocess
+  max_batch_files: 10              # max files per batch upload
+  watch_directory_poll_seconds: 60 # how often to scan watched directory
+  temp_file_cleanup: true          # clean up temp files after ingestion
+
+quality:
+  warning_threshold: 80   # Quality score below this triggers warning
+  failure_threshold: 50   # Quality score below this triggers failure
+
+storage:
+  raw_file_retention_days: 30
+  report_retention_days: 90
+  archive_retention_days: 365
+
+api:
+  rate_limit_per_minute: 60
+  rate_limit_per_hour: 1000
+  max_page_size: 100
+  default_page_size: 20

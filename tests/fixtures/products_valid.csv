@@ -1,0 +1,6 @@
+product_id,sku,product_name,category,unit_price,unit_cost,status
+PRD-001,ELEC-000001,Widget Pro 3000,Electronics,99.99,40.00,active
+PRD-002,ELEC-000002,SuperGadget X,Electronics,249.99,95.00,active
+PRD-003,APRL-000001,Classic T-Shirt,Apparel,29.99,8.00,active
+PRD-004,HOME-000001,Coffee Maker Deluxe,Home & Garden,79.99,32.00,active
+PRD-005,SPRT-000001,Running Shoes Pro,Sports,149.99,60.00,inactive

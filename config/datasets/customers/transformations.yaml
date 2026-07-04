@@ -1,0 +1,23 @@
+# Transformation rules for the Customers dataset
+dataset_type: customers
+version: "1.0"
+
+derived_fields:
+  - name: full_name
+    expression: "concat(first_name, ' ', last_name)"
+    description: "Combined full name"
+
+  - name: customer_since_year
+    expression: "year(created_date)"
+    description: "Year the customer first registered"
+
+field_mappings:
+  customer_id: customer_id
+  first_name: first_name
+  last_name: last_name
+  email: email_address
+  phone: phone_number
+  country: country_code
+  city: city
+  created_date: registration_date
+  customer_segment: segment

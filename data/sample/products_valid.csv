@@ -1,0 +1,26 @@
+sku,product_name,brand,category,subcategory,unit_price,unit_cost,weight_grams,status,is_taxable
+SKU-000001,Furniture Model 1,BrandX,Home,Furniture,542.83,282.48,4991,active,true
+SKU-000002,Furniture Model 2,BrandX,Home,Furniture,227.22,97.88,287,inactive,true
+SKU-000003,Footwear Model 3,BrandX,Apparel,Footwear,672.17,362.6,1402,inactive,true
+SKU-000004,Laptops Model 4,BrandX,Electronics,Laptops,980.9,451.45,3277,active,true
+SKU-000005,Smartphones Model 5,BrandX,Electronics,Smartphones,646.31,220.2,3832,active,true
+SKU-000006,Smartphones Model 6,BrandX,Electronics,Smartphones,267.54,106.54,3774,active,true
+SKU-000007,Footwear Model 7,BrandX,Apparel,Footwear,763.61,315.93,3503,active,true
+SKU-000008,Smartphones Model 8,BrandX,Electronics,Smartphones,475.59,249.55,476,active,true
+SKU-000009,Laptops Model 9,BrandX,Electronics,Laptops,653.63,349.28,379,active,true
+SKU-000010,Laptops Model 10,BrandX,Electronics,Laptops,207.36,63.48,1298,active,true
+SKU-000011,Laptops Model 11,BrandX,Electronics,Laptops,478.82,160.08,1835,inactive,true
+SKU-000012,Vitamins Model 12,BrandX,Health,Vitamins,263.67,108.28,988,active,true
+SKU-000013,Footwear Model 13,BrandX,Apparel,Footwear,117.01,36.0,2605,inactive,true
+SKU-000014,Furniture Model 14,BrandX,Home,Furniture,942.05,338.67,4900,active,true
+SKU-000015,Smartphones Model 15,BrandX,Electronics,Smartphones,700.21,273.41,4968,active,true
+SKU-000016,Fitness Model 16,BrandX,Sports,Fitness,784.8,317.19,3559,active,true
+SKU-000017,Smartphones Model 17,BrandX,Electronics,Smartphones,510.89,205.57,3491,inactive,true
+SKU-000018,Smartphones Model 18,BrandX,Electronics,Smartphones,439.18,179.47,3816,active,true
+SKU-000019,Furniture Model 19,BrandX,Home,Furniture,184.37,84.17,2262,inactive,true
+SKU-000020,Furniture Model 20,BrandX,Home,Furniture,441.21,229.12,2248,active,true
+SKU-000021,Laptops Model 21,BrandX,Electronics,Laptops,832.41,271.36,3742,active,true
+SKU-000022,Furniture Model 22,BrandX,Home,Furniture,574.14,287.33,2805,active,true
+SKU-000023,Furniture Model 23,BrandX,Home,Furniture,852.43,302.23,1787,active,true
+SKU-000024,Footwear Model 24,BrandX,Apparel,Footwear,346.93,195.7,2313,active,true
+SKU-000025,Fitness Model 25,BrandX,Sports,Fitness,948.57,308.93,3379,inactive,true

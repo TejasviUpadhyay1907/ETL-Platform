@@ -1,0 +1,11 @@
+dataset_type: suppliers
+version: "1.0"
+derived_fields: []
+field_mappings:
+  supplier_id: supplier_id
+  supplier_name: supplier_name
+  contact_email: contact_email
+  contact_phone: contact_phone
+  country: country_code
+  payment_terms: payment_terms
+  is_active: is_active

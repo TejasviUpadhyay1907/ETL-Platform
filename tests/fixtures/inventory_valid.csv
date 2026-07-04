@@ -1,0 +1,6 @@
+inventory_id,product_id,warehouse_id,quantity_on_hand,reorder_point,unit_cost
+INV-001,PRD-001,WH-EAST-01,100,20,40.00
+INV-002,PRD-002,WH-WEST-01,45,10,95.00
+INV-003,PRD-003,WH-CENTRAL-01,250,50,8.00
+INV-004,PRD-004,WH-EAST-01,30,15,32.00
+INV-005,PRD-005,WH-WEST-01,0,10,60.00

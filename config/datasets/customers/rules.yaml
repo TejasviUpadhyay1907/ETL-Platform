@@ -1,0 +1,42 @@
+# Business validation rules for the Customers dataset
+dataset_type: customers
+version: "1.0"
+
+rules:
+  - rule_code: CUST_001
+    description: "customer_id must not be null or empty"
+    field: customer_id
+    check: not_null
+    severity: error
+
+  - rule_code: CUST_002
+    description: "email must be a valid email address format"
+    field: email
+    check: valid_email
+    severity: error
+
+  - rule_code: CUST_003
+    description: "first_name must not be null"
+    field: first_name
+    check: not_null
+    severity: error
+
+  - rule_code: CUST_004
+    description: "last_name must not be null"
+    field: last_name
+    check: not_null
+    severity: error
+
+  - rule_code: CUST_005
+    description: "phone number should match expected format when present"
+    field: phone
+    check: valid_phone
+    severity: warning
+    required: false
+
+  - rule_code: CUST_006
+    description: "created_date must be a valid date when present"
+    field: created_date
+    check: valid_date
+    severity: warning
+    required: false

@@ -1,0 +1,42 @@
+# Orders dataset schema definition
+# Validated against every incoming orders file before processing begins.
+dataset_type: orders
+version: "1.0"
+
+columns:
+  - name: order_id
+    type: string
+    required: true
+    description: "Unique order identifier"
+  - name: customer_id
+    type: string
+    required: true
+    description: "Reference to the customer who placed the order"
+  - name: order_date
+    type: date
+    required: true
+    description: "Date the order was placed"
+  - name: order_total
+    type: decimal
+    required: true
+    description: "Total monetary value of the order"
+  - name: status
+    type: string
+    required: true
+    description: "Current order status"
+  - name: product_id
+    type: string
+    required: false
+    description: "Product identifier (may be in line-item format)"
+  - name: quantity
+    type: integer
+    required: false
+    description: "Number of units ordered"
+  - name: shipping_address
+    type: string
+    required: false
+  - name: notes
+    type: string
+    required: false
+
+deduplication_key: [order_id]

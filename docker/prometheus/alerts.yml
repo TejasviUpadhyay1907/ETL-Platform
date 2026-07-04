@@ -1,0 +1,57 @@
+groups:
+  - name: etl_platform
+    interval: 30s
+    rules:
+      - alert: APIDown
+        expr: up{job="etl-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ETL API is down"
+          description: "The ETL Platform API has been down for more than 1 minute."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High API error rate"
+          description: "More than 5% of requests are returning 5xx errors."
+
+      - alert: SlowAPIResponse
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow API response times"
+          description: "95th percentile response time is above 2 seconds."
+
+      - alert: DatabaseDown
+        expr: up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "The PostgreSQL database has been unreachable for more than 1 minute."
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "System memory usage is above 90%."
+
+      - alert: PipelineFailureSpike
+        expr: increase(etl_pipeline_runs_total{status="failed"}[30m]) > 5
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pipeline failure spike"
+          description: "More than 5 pipeline failures in the last 30 minutes."

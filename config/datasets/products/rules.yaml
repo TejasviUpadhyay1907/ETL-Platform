@@ -1,0 +1,31 @@
+dataset_type: products
+version: "1.0"
+rules:
+  - rule_code: PROD_001
+    field: product_id
+    description: "product_id must not be null"
+    check: not_null
+    severity: error
+  - rule_code: PROD_002
+    field: price
+    description: "price must be greater than zero"
+    check: greater_than
+    value: 0
+    severity: error
+  - rule_code: PROD_003
+    field: product_name
+    description: "product_name must not be null"
+    check: not_null
+    severity: error
+  - rule_code: PROD_004
+    field: category
+    description: "category must not be null"
+    check: not_null
+    severity: error
+  - rule_code: PROD_005
+    field: cost
+    description: "cost must be non-negative when present"
+    check: greater_than_or_equal
+    value: 0
+    severity: warning
+    required: false

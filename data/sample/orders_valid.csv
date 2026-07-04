@@ -1,0 +1,26 @@
+order_number,order_date,customer_email,customer_name,product_sku,product_name,quantity,unit_price,discount_pct,status,payment_method,shipping_country
+ORD-00001,2025-06-13,user1@example.com,User 1,PROD-0029,Product 7,5,129.99,5,cancelled,credit_card,GB
+ORD-00002,2025-05-20,user2@example.com,User 2,PROD-0023,Product 152,7,25.56,0,delivered,debit_card,CA
+ORD-00003,2025-06-04,user3@example.com,User 3,PROD-0007,Product 144,4,360.84,20,processing,debit_card,US
+ORD-00004,2025-05-31,user4@example.com,User 4,PROD-0072,Product 2,3,352.08,10,shipped,debit_card,US
+ORD-00005,2025-03-28,user5@example.com,User 5,PROD-0027,Product 24,7,57.38,10,pending,paypal,AU
+ORD-00006,2025-01-12,user6@example.com,User 6,PROD-0187,Product 118,9,71.15,15,delivered,bank_transfer,US
+ORD-00007,2025-06-10,user7@example.com,User 7,PROD-0159,Product 93,10,104.21,0,delivered,debit_card,AU
+ORD-00008,2025-03-16,user8@example.com,User 8,PROD-0021,Product 60,2,196.25,15,cancelled,paypal,US
+ORD-00009,2025-04-05,user9@example.com,User 9,PROD-0091,Product 54,5,353.88,0,pending,debit_card,CA
+ORD-00010,2025-03-04,user10@example.com,User 10,PROD-0042,Product 119,7,142.26,20,delivered,paypal,AU
+ORD-00011,2025-01-15,user11@example.com,User 11,PROD-0059,Product 9,6,206.56,0,delivered,bank_transfer,GB
+ORD-00012,2025-03-22,user12@example.com,User 12,PROD-0055,Product 168,8,203.85,15,delivered,paypal,US
+ORD-00013,2025-03-05,user13@example.com,User 13,PROD-0191,Product 144,9,138.73,20,processing,bank_transfer,US
+ORD-00014,2025-04-03,user14@example.com,User 14,PROD-0057,Product 36,9,251.81,0,delivered,debit_card,GB
+ORD-00015,2025-02-10,user15@example.com,User 15,PROD-0175,Product 109,10,41.12,15,pending,stripe,CA
+ORD-00016,2025-03-06,user16@example.com,User 16,PROD-0142,Product 3,2,344.03,20,shipped,paypal,US
+ORD-00017,2025-03-17,user17@example.com,User 17,PROD-0112,Product 41,8,11.58,10,pending,debit_card,CA
+ORD-00018,2025-01-28,user18@example.com,User 18,PROD-0161,Product 77,9,308.39,5,shipped,debit_card,CA
+ORD-00019,2025-05-16,user19@example.com,User 19,PROD-0001,Product 154,6,249.41,0,shipped,paypal,US
+ORD-00020,2025-01-15,user20@example.com,User 20,PROD-0062,Product 146,2,51.96,15,delivered,bank_transfer,AU
+ORD-00021,2025-02-02,user21@example.com,User 21,PROD-0033,Product 169,8,473.95,5,shipped,bank_transfer,AU
+ORD-00022,2025-06-05,user22@example.com,User 22,PROD-0109,Product 55,9,380.07,5,cancelled,paypal,US
+ORD-00023,2025-06-21,user23@example.com,User 23,PROD-0167,Product 96,8,450.8,15,delivered,debit_card,US
+ORD-00024,2025-01-17,user24@example.com,User 24,PROD-0087,Product 6,10,281.41,20,delivered,credit_card,US
+ORD-00025,2025-06-11,user25@example.com,User 25,PROD-0016,Product 59,2,453.65,10,delivered,bank_transfer,US

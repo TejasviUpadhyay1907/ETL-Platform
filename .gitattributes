@@ -1,0 +1,22 @@
+# Normalize line endings to LF on commit (prevents Windows CRLF commits)
+* text=auto eol=lf
+
+# Binary files — do not attempt line ending conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.xlsx binary
+*.xls binary
+
+# Python — always LF
+*.py text eol=lf
+
+# Config files — always LF
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.env.example text eol=lf

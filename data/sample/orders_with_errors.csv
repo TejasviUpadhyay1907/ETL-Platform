@@ -1,0 +1,21 @@
+order_number,order_date,customer_email,customer_name,product_sku,product_name,quantity,unit_price,discount_pct,status,payment_method,shipping_country
+ORD-ERR-0001,2025-13-01,user1@example.com,User 1,PROD-0001,Product 1,5,337.79,5,delivered,credit_card,US
+ORD-ERR-0002,2025-01-03,not-an-email,User 2,PROD-0002,Product 2,9,74.82,15,delivered,credit_card,US
+ORD-ERR-0003,2025-01-04,user3@example.com,User 3,,Product 3,4,394.45,15,delivered,credit_card,US
+ORD-ERR-0004,2025-01-05,user4@example.com,User 4,PROD-0004,Product 4,-1,103.29,0,delivered,credit_card,US
+ORD-ERR-0005,2025-01-06,user5@example.com,User 5,PROD-0005,Product 5,7,0,10,delivered,credit_card,US
+ORD-ERR-0006,2025-01-07,user6@example.com,User 6,PROD-0006,Product 6,7,211.43,0,INVALID_STATUS,credit_card,US
+ORD-ERR-0007,2025-01-08,user7@example.com,User 7,PROD-0007,Product 7,2,39.69,10,delivered,credit_card,US
+ORD-ERR-0008,2025-01-09,user8@example.com,User 8,PROD-0008,Product 8,2,131.83,5,delivered,credit_card,US
+ORD-ERR-0009,2025-01-10,user9@example.com,User 9,PROD-0009,Product 9,9,229.81,15,delivered,credit_card,US
+ORD-ERR-0010,2025-01-11,user10@example.com,User 10,PROD-0010,Product 10,3,146.48,5,delivered,credit_card,US
+ORD-ERR-0011,2025-01-12,user11@example.com,User 11,PROD-0011,Product 11,2,227.12,0,delivered,credit_card,US
+ORD-ERR-0012,2025-01-13,user12@example.com,User 12,PROD-0012,Product 12,1,329.54,0,delivered,credit_card,US
+ORD-ERR-0013,2025-01-14,user13@example.com,User 13,PROD-0013,Product 13,2,463.91,5,delivered,credit_card,US
+ORD-ERR-0014,2025-01-15,user14@example.com,User 14,PROD-0014,Product 14,3,209.13,15,delivered,credit_card,US
+ORD-ERR-0015,2025-01-16,user15@example.com,User 15,PROD-0015,Product 15,4,433.67,0,delivered,credit_card,US
+ORD-ERR-0016,2025-01-17,user16@example.com,User 16,PROD-0016,Product 16,3,195.69,15,delivered,credit_card,US
+ORD-ERR-0017,2025-01-18,user17@example.com,User 17,PROD-0017,Product 17,5,463.98,15,delivered,credit_card,US
+ORD-ERR-0018,2025-01-19,user18@example.com,User 18,PROD-0018,Product 18,5,217.26,15,delivered,credit_card,US
+ORD-ERR-0019,2025-01-20,user19@example.com,User 19,PROD-0019,Product 19,3,103.04,5,delivered,credit_card,US
+ORD-ERR-0020,2025-01-21,user20@example.com,User 20,PROD-0020,Product 20,1,293.79,0,delivered,credit_card,US
