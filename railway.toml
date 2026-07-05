@@ -1,9 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install -r requirements.txt"
 
 [deploy]
-startCommand = "python scripts/setup_database.py --skip-seed && uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2"
+startCommand = "python scripts/setup_database.py --skip-seed && uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1"
 healthcheckPath = "/api/v1/health/ping"
 healthcheckTimeout = 120
 restartPolicyType = "on_failure"
