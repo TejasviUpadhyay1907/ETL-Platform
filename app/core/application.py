@@ -131,8 +131,8 @@ def create_app() -> FastAPI:
         title=config.app_name,
         description=APP_DESCRIPTION,
         version=config.app_version,
-        docs_url=None,       # We serve custom Swagger below
-        redoc_url=None,      # We serve custom ReDoc below
+        docs_url="/docs",
+        redoc_url="/redoc",
         openapi_url="/openapi.json",
         swagger_ui_parameters={
             "defaultModelsExpandDepth": -1,
@@ -256,28 +256,6 @@ def _register_routers(app: FastAPI) -> None:
     # Phase 12: Prometheus metrics scrape endpoint (no auth required)
     from app.api.routers.metrics_router import router as metrics_router
     app.include_router(metrics_router)
-
-    # Override Swagger UI to use unpkg CDN (more reliable in production)
-    from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
-    from fastapi.responses import HTMLResponse
-
-    @app.get("/docs", include_in_schema=False)
-    async def custom_swagger():
-        return get_swagger_ui_html(
-            openapi_url="/openapi.json",
-            title=f"{config.app_name} — Swagger UI",
-            swagger_js_url="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js",
-            swagger_css_url="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css",
-            swagger_favicon_url="https://fastapi.tiangolo.com/img/favicon.png",
-        )
-
-    @app.get("/redoc", include_in_schema=False)
-    async def custom_redoc():
-        return get_redoc_html(
-            openapi_url="/openapi.json",
-            title=f"{config.app_name} — ReDoc",
-            redoc_js_url="https://unpkg.com/redoc@2/bundles/redoc.standalone.js",
-        )
 
 
 def _mount_static_files(app: FastAPI) -> None:
