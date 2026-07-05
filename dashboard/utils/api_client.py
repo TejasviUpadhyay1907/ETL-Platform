@@ -23,7 +23,7 @@ import streamlit as st
 # Configuration
 # ---------------------------------------------------------------------------
 
-DEFAULT_API_URL = os.getenv("DASHBOARD_API_URL", "http://localhost:8000")
+DEFAULT_API_URL = os.getenv("DASHBOARD_API_URL", "http://localhost:8001")
 REQUEST_TIMEOUT = int(os.getenv("DASHBOARD_API_TIMEOUT", "15"))
 
 
