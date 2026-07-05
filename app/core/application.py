@@ -131,14 +131,9 @@ def create_app() -> FastAPI:
         title=config.app_name,
         description=APP_DESCRIPTION,
         version=config.app_version,
-        docs_url="/docs",
-        redoc_url="/redoc",
+        docs_url=None,       # Served below with local static assets (no CDN)
+        redoc_url=None,
         openapi_url="/openapi.json",
-        swagger_ui_parameters={
-            "defaultModelsExpandDepth": -1,
-            "persistAuthorization": True,
-            "displayRequestDuration": True,
-        },
         lifespan=lifespan,
         # OpenAPI metadata
         contact={
@@ -256,6 +251,38 @@ def _register_routers(app: FastAPI) -> None:
     # Phase 12: Prometheus metrics scrape endpoint (no auth required)
     from app.api.routers.metrics_router import router as metrics_router
     app.include_router(metrics_router)
+
+    # Serve Swagger UI from local static assets (no CDN dependency)
+    # This ensures /docs works even when CDN is blocked or slow
+    @app.get("/docs", include_in_schema=False)
+    async def swagger_ui_html():
+        from fastapi.responses import HTMLResponse
+        return HTMLResponse("""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/static/swagger-ui.css" >
+<title>ETL Platform - Swagger UI</title>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="/static/swagger-ui-bundle.js"> </script>
+<script>
+window.onload = function() {
+  window.ui = SwaggerUIBundle({
+    url: "/openapi.json",
+    dom_id: '#swagger-ui',
+    presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
+    layout: "BaseLayout",
+    deepLinking: true,
+    persistAuthorization: true,
+    displayRequestDuration: true,
+  })
+}
+</script>
+</body>
+</html>""")
 
 
 def _mount_static_files(app: FastAPI) -> None:

@@ -88,6 +88,10 @@ logs/
 !data/sample/
 data/backups/
 
+# Keep swagger-ui static assets (served locally, no CDN)
+!app/static/swagger-ui.css
+!app/static/swagger-ui-bundle.js
+
 # ---- Database ---------------------------------------------------------------
 *.sqlite
 *.sqlite3
