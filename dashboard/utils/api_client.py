@@ -23,7 +23,7 @@ import streamlit as st
 # Configuration
 # ---------------------------------------------------------------------------
 
-DEFAULT_API_URL = os.getenv("DASHBOARD_API_URL", "http://localhost:8001")
+DEFAULT_API_URL = os.getenv("DASHBOARD_API_URL", "https://etl-platform-api.onrender.com")
 REQUEST_TIMEOUT = int(os.getenv("DASHBOARD_API_TIMEOUT", "15"))
 
 

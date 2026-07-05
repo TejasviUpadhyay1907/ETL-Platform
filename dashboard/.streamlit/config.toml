@@ -9,10 +9,11 @@ font = "sans serif"
 port = 8501
 headless = true
 enableCORS = false
-enableXsrfProtection = true
+enableXsrfProtection = false
 
 [browser]
 gatherUsageStats = false
+serverAddress = "0.0.0.0"
 
 [runner]
 fastReruns = true
