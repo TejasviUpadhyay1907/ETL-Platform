@@ -1,12 +1,13 @@
 """
 Password hashing and verification using passlib/bcrypt.
-
-Design decisions:
-- bcrypt with rounds=12 for a good security/performance balance
-- All hash operations are synchronous (bcrypt is inherently CPU-bound)
-- verify() returns bool, never raises — callers check the return value
 """
 from __future__ import annotations
+
+import warnings
+
+# Suppress passlib's bcrypt version detection warning (cosmetic only, hashing works fine)
+warnings.filterwarnings("ignore", message=".*error reading bcrypt version.*")
+warnings.filterwarnings("ignore", category=UserWarning, module="passlib")
 
 from passlib.context import CryptContext
 
