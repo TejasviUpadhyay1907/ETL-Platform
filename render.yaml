@@ -5,6 +5,7 @@ services:
     region: oregon
     plan: free
     branch: main
+    pythonVersion: "3.11.9"
     buildCommand: pip install -r requirements.txt
     startCommand: python scripts/setup_database.py --skip-seed && uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1
     healthCheckPath: /api/v1/health/ping
