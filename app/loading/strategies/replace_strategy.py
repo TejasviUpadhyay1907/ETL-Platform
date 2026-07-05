@@ -49,6 +49,9 @@ class ReplaceStrategy(BaseLoadStrategy):
         try:
             conn = self._session.connection()
 
+            # Drop derived columns before DELETE+INSERT
+            df = self._filter_to_table_columns(df, target_table)
+
             # Step 1: Delete all existing records
             delete_result = conn.execute(text(f'DELETE FROM "{target_table}"'))
             deleted_count = delete_result.rowcount

@@ -36,6 +36,9 @@ class BulkInsertStrategy(BaseLoadStrategy):
         if df.empty:
             return metrics, batch_results
 
+        # Drop derived/extra columns not in the target table schema
+        df = self._filter_to_table_columns(df, target_table)
+
         metrics.total_rows_input = len(df)
         chunks = self._chunk_df(df)
         metrics.batch_count = len(chunks)

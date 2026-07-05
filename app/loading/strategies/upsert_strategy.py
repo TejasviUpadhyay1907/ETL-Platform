@@ -77,6 +77,9 @@ class UpsertStrategy(BaseLoadStrategy):
             metrics.total_rows_input = 0
             return metrics, batch_results
 
+        # Drop any derived/extra columns that don't exist in the target table
+        df = self._filter_to_table_columns(df, target_table)
+
         metrics.total_rows_input = len(df)
         chunks = self._chunk_df(df)
         metrics.batch_count = len(chunks)
@@ -187,24 +190,29 @@ class UpsertStrategy(BaseLoadStrategy):
     ) -> tuple[LoadMetrics, list[LoadBatchResult]]:
         """Raw pandas to_sql fallback for unregistered dataset types."""
         try:
+            # Filter to only columns that exist in the target table
+            df = self._filter_to_table_columns(df, target_table)
+            conn = self._session.connection()
             df.to_sql(
                 target_table,
-                con=self._session.bind,
+                con=conn,
                 if_exists="append",
                 index=False,
                 chunksize=self._config.batch_size,
                 method="multi",
             )
+            self._session.flush()
             metrics.rows_inserted = len(df)
             batch_results.append(LoadBatchResult(
                 batch_number=1, batch_size=len(df),
                 rows_attempted=len(df), rows_inserted=len(df),
             ))
         except Exception as exc:
-            metrics.rows_failed = len(df)
+            metrics.rows_failed = len(df) if not df.empty else 0
             batch_results.append(LoadBatchResult(
-                batch_number=1, batch_size=len(df),
-                rows_attempted=len(df), rows_failed=len(df),
+                batch_number=1, batch_size=len(df) if not df.empty else 0,
+                rows_attempted=len(df) if not df.empty else 0,
+                rows_failed=len(df) if not df.empty else 0,
                 error_message=str(exc),
             ))
         return metrics, batch_results

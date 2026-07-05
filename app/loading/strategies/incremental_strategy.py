@@ -51,6 +51,9 @@ class IncrementalStrategy(BaseLoadStrategy):
         if df.empty:
             return metrics, batch_results
 
+        # Drop derived/extra columns not in the target table schema
+        df = self._filter_to_table_columns(df, target_table)
+
         # Apply watermark filter
         filtered_df = df
         if watermark_col and watermark_val is not None:

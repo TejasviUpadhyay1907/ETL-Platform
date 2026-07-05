@@ -76,3 +76,32 @@ class BaseLoadStrategy(abc.ABC):
                 for k, v in row.items()
             })
         return clean
+
+    def _filter_to_table_columns(self, df: pd.DataFrame, target_table: str) -> pd.DataFrame:
+        """
+        Drop any DataFrame columns that do not exist in the target database table.
+
+        The transformation stage adds derived columns (order_year, is_high_value, etc.)
+        that have no corresponding column in the warehouse schema. Passing them to
+        the DB causes 'Unconsumed column names' errors. This method strips them first.
+
+        Works for both PostgreSQL and SQLite.
+        """
+        try:
+            from sqlalchemy import inspect as _inspect
+            inspector = _inspect(self._session.bind)
+            db_cols = {col["name"] for col in inspector.get_columns(target_table)}
+            if not db_cols:
+                return df  # Table not found — pass through unchanged
+            df_cols = set(df.columns)
+            valid_cols = [c for c in df.columns if c in db_cols]
+            dropped   = df_cols - db_cols
+            if dropped:
+                logger.debug(
+                    f"Dropped {len(dropped)} derived columns before loading into '{target_table}': "
+                    f"{sorted(dropped)[:10]}{'…' if len(dropped) > 10 else ''}",
+                )
+            return df[valid_cols] if valid_cols else df
+        except Exception as exc:
+            logger.warning(f"Column filtering skipped ({exc}) — using full DataFrame")
+            return df
