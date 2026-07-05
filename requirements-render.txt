@@ -1,35 +1,33 @@
-# Minimal requirements for Render.com deployment
-# Excludes dev tools, dashboard (Streamlit), and load testing packages
-
+# Ultra-minimal for Render free tier (10-min build limit)
+# Core API framework
 fastapi==0.115.6
-uvicorn==0.32.1
-starlette==0.41.3
+uvicorn[standard]==0.32.1
 
+# Config & validation
 pydantic==2.10.3
 pydantic-settings==2.7.0
 python-dotenv==1.0.1
 
+# Database
 sqlalchemy==2.0.36
 alembic==1.14.0
 psycopg2-binary==2.9.10
 
+# Data processing
 pandas==2.2.3
 numpy==2.2.0
 openpyxl==3.1.5
-xlrd==2.0.1
 
+# Auth & security
 passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
-cryptography==44.0.0
 
+# HTTP & utils
 httpx==0.28.1
 python-multipart==0.0.20
-aiofiles==24.1.0
-jinja2==3.1.4
-markupsafe==3.0.2
-
 pyyaml==6.0.2
 loguru==0.7.3
-python-json-logger==2.0.7
 apscheduler==3.10.4
 prometheus-client==0.21.1
+aiofiles==24.1.0
+jinja2==3.1.4
