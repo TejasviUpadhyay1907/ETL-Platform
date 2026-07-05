@@ -154,6 +154,42 @@ def list_pipeline_runs(
     )
 
 
+# ── GET /api/v1/pipelines/history ────────────────────────────────────────
+# IMPORTANT: Must be registered BEFORE /{run_id} to avoid UUID matching conflict
+
+@router.get(
+    "/history",
+    response_model=PaginatedResponse[PipelineHistoryItem],
+    summary="Get paginated pipeline execution history",
+)
+def get_pipeline_history_alias(
+    db: DbSession,
+    pagination: Pagination,
+    dataset_type: str | None = Query(default=None),
+    status: str | None = Query(default=None),
+) -> PaginatedResponse[PipelineHistoryItem]:
+    return list_pipeline_runs(db, pagination, status, dataset_type, None)
+
+
+# ── GET /api/v1/pipelines/definitions ────────────────────────────────────
+# IMPORTANT: Must be registered BEFORE /{run_id} to avoid UUID matching conflict
+
+@router.get(
+    "/definitions",
+    response_model=APIResponse[list[PipelineDefinitionResponse]],
+    summary="List all registered pipeline definitions",
+)
+def list_pipeline_definitions_alias() -> APIResponse[list[PipelineDefinitionResponse]]:
+    from app.pipeline.pipeline_registry import get_registry
+    registry = get_registry()
+    return APIResponse[list[PipelineDefinitionResponse]].ok(
+        data=[
+            PipelineDefinitionResponse(**d.to_dict())
+            for d in registry.list_all()
+        ]
+    )
+
+
 # ── GET /api/v1/pipelines/{run_id} ───────────────────────────────────────
 
 @router.get(
@@ -299,6 +335,7 @@ def get_pipeline_checkpoints(run_id: uuid.UUID, db: DbSession) -> APIResponse[li
     "/history",
     response_model=PaginatedResponse[PipelineHistoryItem],
     summary="Get paginated pipeline execution history",
+    description="Alias of GET /pipelines — kept for backward compatibility.",
 )
 def get_pipeline_history(
     db: DbSession,

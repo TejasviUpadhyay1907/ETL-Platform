@@ -22,17 +22,21 @@ app = create_app()
 
 
 if __name__ == "__main__":
+    import platform
     config = get_config()
+
+    # uvloop is only available on Linux/macOS — fall back to asyncio on Windows
+    loop = "uvloop" if platform.system() != "Windows" else "asyncio"
+    http_parser = "httptools" if platform.system() != "Windows" else "h11"
 
     uvicorn.run(
         "main:app",
         host=config.host,
         port=config.port,
-        reload=config.is_development,  # Hot-reload only in development
+        reload=config.is_development,
         log_level=config.log_level.lower(),
-        access_log=False,  # We handle access logging in our middleware
-        # Production settings
+        access_log=False,
         workers=1 if config.is_development else 4,
-        loop="uvloop",  # Faster event loop (installed via uvicorn[standard])
-        http="httptools",  # Faster HTTP parser
+        loop=loop,
+        http=http_parser,
     )
