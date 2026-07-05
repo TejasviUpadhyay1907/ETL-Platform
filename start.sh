@@ -52,6 +52,7 @@ try:
     from app.database.engine import get_session
     from app.auth.rbac import seed_roles_and_permissions
     from app.auth.user_service import UserService
+    from app.auth.password import hash_password, verify_password
 
     with get_session() as session:
         seed_roles_and_permissions(session)
@@ -61,13 +62,28 @@ try:
             ("admin",    "admin@etlplatform.local",    "Admin1234!",    ["administrator"], True),
             ("engineer", "engineer@etlplatform.local", "Engineer1234!", ["data_engineer"], False),
         ]:
-            if not svc.get_user_by_username(username):
-                svc.create_user(username, email, password, roles, is_superuser=is_super)
-                print(f"Created user: {username}")
+            existing = svc.get_user_by_username(username)
+            if not existing:
+                user = svc.create_user(username, email, password, roles, is_superuser=is_super)
+                # Verify the hash works immediately
+                ok = verify_password(password, user.hashed_password)
+                print(f"Created user: {username} (hash_ok={ok})")
+            else:
+                # Reset password to ensure hash is valid
+                from app.database.models.auth.user import User as UserModel
+                from sqlalchemy import select
+                u = session.execute(select(UserModel).where(UserModel.username == username)).scalar_one_or_none()
+                if u:
+                    u.hashed_password = hash_password(password)
+                    u.is_locked = False
+                    u.failed_login_count = 0
+                    ok = verify_password(password, u.hashed_password)
+                    print(f"Reset password: {username} (hash_ok={ok})")
         session.commit()
     print("RBAC seeding complete.")
 except Exception as e:
     print(f"Seeding warning (non-fatal): {e}")
+    import traceback; traceback.print_exc()
 
 print("Database setup done. Starting API...")
 PYEOF
