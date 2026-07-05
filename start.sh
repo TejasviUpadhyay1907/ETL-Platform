@@ -49,36 +49,56 @@ except Exception as e:
 
 try:
     # Step 3: Seed RBAC roles + create admin user
+    # Use raw bcrypt directly to avoid passlib version mismatch
+    import bcrypt as _bcrypt
     from app.database.engine import get_session
     from app.auth.rbac import seed_roles_and_permissions
-    from app.auth.user_service import UserService
-    from app.auth.password import hash_password, verify_password
+    from app.database.models.auth.user import User as UserModel
+    from app.database.models.auth.role import Role as RoleModel
+    from sqlalchemy import select
+
+    def make_hash(pwd):
+        return _bcrypt.hashpw(pwd.encode(), _bcrypt.gensalt(rounds=12)).decode()
+
+    def check_hash(pwd, hashed):
+        return _bcrypt.checkpw(pwd.encode(), hashed.encode())
 
     with get_session() as session:
         seed_roles_and_permissions(session)
 
-        svc = UserService(session)
-        for username, email, password, roles, is_super in [
-            ("admin",    "admin@etlplatform.local",    "Admin1234!",    ["administrator"], True),
-            ("engineer", "engineer@etlplatform.local", "Engineer1234!", ["data_engineer"], False),
-        ]:
-            existing = svc.get_user_by_username(username)
-            if not existing:
-                user = svc.create_user(username, email, password, roles, is_superuser=is_super)
-                # Verify the hash works immediately
-                ok = verify_password(password, user.hashed_password)
-                print(f"Created user: {username} (hash_ok={ok})")
+        users_to_create = [
+            ("admin",    "admin@etlplatform.local",    "Admin1234!",    "administrator", True),
+            ("engineer", "engineer@etlplatform.local", "Engineer1234!", "data_engineer", False),
+        ]
+        for username, email, password, role_name, is_super in users_to_create:
+            u = session.execute(
+                select(UserModel).where(UserModel.username == username)
+            ).scalar_one_or_none()
+
+            pwd_hash = make_hash(password)
+            ok = check_hash(password, pwd_hash)
+
+            if not u:
+                role = session.execute(
+                    select(RoleModel).where(RoleModel.name == role_name)
+                ).scalar_one_or_none()
+                u = UserModel(
+                    username=username, email=email,
+                    hashed_password=pwd_hash,
+                    is_active=True, is_superuser=is_super,
+                    is_locked=False, is_deleted=False,
+                    failed_login_count=0,
+                )
+                if role:
+                    u.roles.append(role)
+                session.add(u)
+                print(f"Created user: {username} (bcrypt_ok={ok})")
             else:
-                # Reset password to ensure hash is valid
-                from app.database.models.auth.user import User as UserModel
-                from sqlalchemy import select
-                u = session.execute(select(UserModel).where(UserModel.username == username)).scalar_one_or_none()
-                if u:
-                    u.hashed_password = hash_password(password)
-                    u.is_locked = False
-                    u.failed_login_count = 0
-                    ok = verify_password(password, u.hashed_password)
-                    print(f"Reset password: {username} (hash_ok={ok})")
+                u.hashed_password = pwd_hash
+                u.is_locked = False
+                u.failed_login_count = 0
+                print(f"Reset password: {username} (bcrypt_ok={ok})")
+
         session.commit()
     print("RBAC seeding complete.")
 except Exception as e:
