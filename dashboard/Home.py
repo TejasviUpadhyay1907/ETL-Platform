@@ -1,15 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-"""
-ETL Platform Operations Dashboard — Entry Point
-
-Run with:
-    streamlit run dashboard/Home.py
-
-The Home page shows the login form and, after authentication,
-redirects to the Executive Overview.
-"""
 import streamlit as st
 
 st.set_page_config(

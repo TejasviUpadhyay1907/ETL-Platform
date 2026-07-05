@@ -1,12 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-"""
-Page 6 — Transformation Dashboard
-
-Derived columns, business metrics, aggregations, transformation actions.
-Data sourced from pipeline stage results.
-"""
 import streamlit as st
 import pandas as pd
 

@@ -1,11 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-"""
-Page 10 — Configuration Viewer
-
-Read-only view of active pipeline definitions and system configuration.
-"""
 import streamlit as st
 import pandas as pd
 

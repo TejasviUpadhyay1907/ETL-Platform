@@ -1,12 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-"""
-Page 5 — Cleaning Dashboard
-
-Rows cleaned, cells modified, duplicate removal, missing value handling.
-Data sourced from pipeline run metrics via the pipeline API.
-"""
 import streamlit as st
 import pandas as pd
 

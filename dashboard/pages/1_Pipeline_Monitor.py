@@ -1,11 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-"""
-Page 2 — Pipeline Monitor
-
-Shows running, queued, completed, failed pipelines with live-refresh.
-"""
 import streamlit as st
 import pandas as pd
 

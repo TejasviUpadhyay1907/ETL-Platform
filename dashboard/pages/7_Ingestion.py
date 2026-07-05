@@ -1,11 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-"""
-Page — Ingestion Monitor
-
-Ingestion events, file upload stats, dataset distribution.
-"""
 import streamlit as st
 import pandas as pd
 

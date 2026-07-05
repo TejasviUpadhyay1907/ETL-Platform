@@ -1,11 +1,5 @@
-import sys
-import os
+import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-"""
-Page 7 — Warehouse Dashboard
-
-Rows loaded, load duration, upserts, incremental loads, batch statistics.
-"""
 import streamlit as st
 import pandas as pd
 
