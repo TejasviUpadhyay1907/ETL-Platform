@@ -47,9 +47,9 @@ _DATASET_CONFIG: dict[str, dict[str, Any]] = {
         "batch_size":      1000,
     },
     "orders": {
-        "target_table":    "orders",
-        "strategy_type":   LoadStrategyType.UPSERT,
-        "conflict_columns": ["order_number"],
+        "target_table":    "etl_demo_orders",   # staging table — no FK constraints
+        "strategy_type":   LoadStrategyType.BULK_INSERT,
+        "conflict_columns": [],
         "batch_size":      1000,
     },
     "payments": {

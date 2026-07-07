@@ -29,7 +29,7 @@ try:
     from app.database.base import Base
     from app.database.engine import get_engine
     import app.database.models  # registers ALL models including auth
-    from sqlalchemy import inspect as sa_inspect
+    from sqlalchemy import inspect as sa_inspect, text as sa_text
 
     engine = get_engine()
     inspector = sa_inspect(engine)
@@ -44,6 +44,33 @@ try:
         print(f"Created {len(missing)} tables.")
     else:
         print("All tables exist.")
+
+    # Create etl_demo_orders staging table (used by load registry for orders)
+    with engine.connect() as conn:
+        conn.execute(sa_text("""
+            CREATE TABLE IF NOT EXISTS etl_demo_orders (
+                id              TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+                order_number    TEXT,
+                order_date      TEXT,
+                customer_email  TEXT,
+                customer_name   TEXT,
+                product_sku     TEXT,
+                product_name    TEXT,
+                quantity        INTEGER,
+                unit_price      NUMERIC(12,4),
+                discount_pct    NUMERIC(5,2),
+                order_status    TEXT,
+                payment_method  TEXT,
+                shipping_country TEXT,
+                order_year      INTEGER,
+                order_month     INTEGER,
+                order_quarter   INTEGER,
+                pipeline_run_id TEXT,
+                loaded_at       TIMESTAMP DEFAULT NOW()
+            )
+        """))
+        conn.commit()
+    print("etl_demo_orders staging table ready.")
 except Exception as e:
     print(f"Table creation warning: {e}")
 
