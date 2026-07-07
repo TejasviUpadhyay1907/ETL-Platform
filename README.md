@@ -163,46 +163,140 @@ docker-compose -f docker-compose.prod.yml \
 ```
 ETL-Platform/
 │
-├── app/                        # Application source
-│   ├── api/                    # FastAPI routers + schemas (62 endpoints)
-│   │   ├── routers/            # auth, pipelines, ingest, quality, load, users…
-│   │   ├── schemas/            # Pydantic request/response models
-│   │   └── middleware/         # JWT auth, rate limiting
-│   ├── auth/                   # JWT handler, bcrypt, RBAC, user service
-│   ├── cleaning/               # Cleaning engine + 7 strategies
-│   ├── core/                   # Config, exceptions, app factory
-│   ├── database/               # 22 ORM models, 11 repositories, engine
-│   ├── ingestion/              # CSV/Excel/ZIP readers, file detection
-│   ├── loading/                # Warehouse loader + 5 strategies
-│   ├── middleware/             # Logging, security headers, Prometheus
-│   ├── observability/          # Prometheus metrics definitions
-│   ├── pipeline/               # Orchestration engine, checkpoints, retry
-│   ├── transformation/         # Transformation engine + 8 transformers
-│   └── validation/             # Validation engine + 9 validators
+├── app/                            # Application source code
+│   ├── api/                        # FastAPI layer (62 endpoints)
+│   │   ├── routers/                # auth, pipelines, ingest, quality, users…
+│   │   ├── schemas/                # Pydantic request/response models
+│   │   └── middleware/             # JWT auth, rate limiting
+│   ├── auth/                       # JWT handler, bcrypt, RBAC, user service
+│   ├── cleaning/                   # Cleaning engine + 7 strategies
+│   ├── core/                       # Config, exceptions, app factory
+│   ├── database/                   # 22 ORM models, 11 repositories, engine
+│   │   ├── models/audit/           # AuditLog, CleaningLog, QualityScore
+│   │   ├── models/auth/            # User, Role, Permission, ApiKey
+│   │   ├── models/operational/     # Customers, Orders, Products, Payments…
+│   │   └── models/pipeline/        # PipelineRun, StageResult, IngestionEvent
+│   ├── ingestion/                  # CSV/Excel/ZIP readers, dedup, schema detect
+│   │   └── readers/                # csv_reader, excel_reader, zip_reader
+│   ├── loading/                    # Warehouse loader + 5 strategies
+│   │   └── strategies/             # upsert, bulk_insert, append, replace, incr
+│   ├── logging/                    # Structured JSON logging, audit emitter
+│   ├── middleware/                 # Request ID, security headers, metrics
+│   ├── observability/              # Prometheus metric definitions
+│   ├── pipeline/                   # Orchestration engine, checkpoints, retry
+│   ├── reporting/                  # Report builders, PDF/Excel export
+│   ├── static/                     # Swagger UI assets (served locally)
+│   ├── transformation/             # Transformation engine + 8 transformers
+│   │   └── transformers/           # Per-dataset transformer implementations
+│   ├── utils/                      # Date, file, hash, string utilities
+│   └── validation/                 # Validation engine + 9 validators
+│       └── rules/                  # Per-dataset rule implementations
 │
-├── dashboard/                  # Streamlit operations dashboard
-│   ├── Home.py                 # Entry point (executive overview)
-│   ├── pages/                  # 10 numbered dashboard pages
-│   └── utils/                  # api_client, auth, charts, formatting
+├── dashboard/                      # Streamlit operations dashboard
+│   ├── Home.py                     # Entry point — executive overview
+│   ├── requirements.txt            # Streamlit Cloud deployment deps
+│   ├── pages/                      # 10 dashboard pages (numbered)
+│   └── utils/                      # api_client, auth, charts, formatting
 │
-├── tests/                      # 1,148 tests
-│   ├── unit/                   # Fast tests (SQLite, no external deps)
-│   └── integration/            # API + DB integration tests
+├── tests/                          # 1,148 tests
+│   ├── fixtures/                   # Sample CSV/Excel/ZIP test files
+│   ├── unit/                       # Fast tests (SQLite, no external deps)
+│   │   ├── test_core/              # Auth, config, DB, pipeline, validation…
+│   │   ├── test_cleaning/          # Cleaning strategy unit tests
+│   │   ├── test_transformation/    # Transformer unit tests
+│   │   ├── test_validation/        # Validator unit tests
+│   │   ├── test_reporting/         # Report builder tests
+│   │   └── test_dashboard/         # Dashboard utility tests
+│   └── integration/                # API + DB integration tests
 │
-├── docker/                     # Dockerfiles, Nginx, Prometheus, Grafana configs
-├── k8s/                        # Kubernetes manifests (Deployment, HPA, Ingress…)
-├── migrations/                 # Alembic database migrations
-├── scripts/                    # Setup, seed, backup, and utility scripts
-├── benchmarks/                 # Performance benchmarks + Locust load tests
-├── config/                     # YAML dataset configurations
-├── data/sample/                # Ready-to-upload sample CSV files
-├── docs/                       # Architecture docs, guides, runbooks
+├── config/                         # YAML dataset configurations
+│   └── datasets/                   # Per-dataset: schema, rules, cleaning, transforms
+│       └── {orders,customers,…}/   # orders/, customers/, products/, …
 │
-├── main.py                     # API entry point
-├── start.sh                    # Render.com start script
-├── requirements.txt            # Production dependencies
-├── docker-compose.prod.yml     # Production Docker Compose
-└── docker-compose.monitoring.yml # Prometheus + Grafana stack
+├── docker/                         # All Docker-related configs
+│   ├── Dockerfile                  # Production API image
+│   ├── Dockerfile.dashboard        # Streamlit dashboard image
+│   ├── Dockerfile.dev              # Development image (hot-reload)
+│   ├── grafana/                    # Grafana dashboards + provisioning
+│   ├── nginx/                      # nginx.conf, nginx.prod.conf
+│   ├── postgres/                   # PostgreSQL init.sql
+│   └── prometheus/                 # prometheus.yml, alert rules
+│
+├── k8s/                            # Kubernetes manifests
+│   ├── deployment-api.yaml         # API Deployment + HPA
+│   ├── ingress.yaml                # Ingress with TLS
+│   ├── network-policy.yaml         # Network isolation
+│   └── …                          # namespace, service, pvc, secret, configmap
+│
+├── migrations/                     # Alembic database migrations
+│   └── versions/                   # Versioned migration scripts
+│
+├── scripts/                        # Utility scripts
+│   ├── setup_database.py           # One-command DB init + seed
+│   ├── seed_data.py                # Load demo data (tiny/small/full)
+│   ├── run_migrations.py           # Apply / rollback Alembic migrations
+│   ├── start_dev.py                # Start API + dashboard together
+│   ├── create_admin_user.py        # Create admin user manually
+│   ├── create_api_key.py           # Generate scoped API key
+│   ├── reset_database.py           # Wipe and re-init (dev only)
+│   ├── verify_database.py          # Verify schema + connectivity
+│   ├── health_check.py             # Quick API health probe
+│   ├── status.py                   # Show pipeline + system status
+│   ├── run_demo_pipeline.py        # Run end-to-end demo
+│   ├── run_dashboard.py            # Start dashboard with options
+│   ├── backup/                     # DB backup / restore shell scripts
+│   └── dev/                        # Dev + debug utilities
+│       ├── monitor.py              # Trigger + watch Render deploys
+│       ├── test_upload_pipeline.py # End-to-end upload test
+│       └── verify_prod_login.py    # Verify production credentials
+│
+├── benchmarks/                     # Performance testing
+│   ├── benchmark_pipeline.py       # Throughput + latency benchmarks
+│   └── locustfile.py               # Locust load test scenarios
+│
+├── data/                           # Data directories
+│   ├── sample/                     # Ready-to-use demo CSV files ✓ (committed)
+│   ├── raw/                        # Ingested files (runtime, gitignored)
+│   ├── reports/                    # Generated reports (runtime, gitignored)
+│   └── archive/                    # Archived files (runtime, gitignored)
+│
+├── docs/                           # All documentation (25+ files)
+│   ├── README.md                   # Documentation index
+│   ├── FIRST_TIME_SETUP.md         # Zero-to-running in 5 min
+│   ├── LOCAL_DEVELOPMENT.md        # Daily dev workflow
+│   ├── RUNNING_THE_PROJECT.md      # All run options
+│   ├── DEPLOYMENT_GUIDE.md         # Cloud deployment guide
+│   ├── SYSTEM_FLOW.md              # End-to-end data flow
+│   ├── TROUBLESHOOTING.md          # Common errors + fixes
+│   ├── DEVELOPER_GUIDE.md          # Conventions, extension points
+│   ├── OPERATIONS_RUNBOOK.md       # Incident response, maintenance
+│   ├── SECURITY_CHECKLIST.md       # OWASP API Top 10 compliance
+│   ├── CHANGELOG.md                # Full version history
+│   ├── INTERVIEW_PREP.md           # Architecture Q&A, trade-offs
+│   ├── PORTFOLIO_PACKAGE.md        # Portfolio summary
+│   └── 01_SRS.md … 17_*.md        # Architecture deep-dives (17 docs)
+│
+├── logs/                           # Application logs (runtime, gitignored)
+│
+├── main.py                         # FastAPI application entry point
+├── alembic.ini                     # Alembic migrations config
+├── pyproject.toml                  # Black, Ruff, Mypy, pytest config
+├── requirements.txt                # Production dependencies (pinned)
+├── requirements-render.txt         # Render.com build dependencies
+├── requirements-dev.txt            # Development + test dependencies
+├── render.yaml                     # Render.com service blueprint
+├── start.sh                        # Render start: migrate → seed → uvicorn
+├── build.sh                        # Render build: apt deps → pip install
+├── Procfile                        # Process declarations (Heroku/Render)
+├── docker-compose.yml              # Base Docker Compose
+├── docker-compose.prod.yml         # Production stack (API + DB + Nginx)
+├── docker-compose.dev.yml          # Dev stack (hot-reload)
+├── docker-compose.monitoring.yml   # Monitoring stack (Prometheus + Grafana)
+├── .env.example                    # Environment variable template
+├── .dockerignore                   # Docker build exclusions
+├── .editorconfig                   # Editor formatting rules
+├── .pre-commit-config.yaml         # Pre-commit hooks (black, ruff, mypy)
+└── LICENSE                         # MIT License
 ```
 
 ---
