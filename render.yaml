@@ -1,0 +1,67 @@
+services:
+  - type: web
+    name: etl-platform-api
+    runtime: python
+    region: oregon
+    plan: free
+    branch: main
+    pythonVersion: "3.11.9"
+    buildCommand: bash build.sh
+    startCommand: bash start.sh
+    healthCheckPath: /api/v1/health/ping
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_NAME
+        value: ETL Platform
+      - key: APP_VERSION
+        value: 1.0.0
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LOG_JSON_FORMAT
+        value: "True"
+      - key: RATE_LIMIT_ENABLED
+        value: "True"
+      - key: CORS_ENABLED
+        value: "True"
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: PIPELINE_ENABLE_SCHEDULER
+        value: "False"
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "100"
+      - key: UPLOAD_DIRECTORY
+        value: /tmp/raw
+      - key: REPORT_DIRECTORY
+        value: /tmp/reports
+      - key: ARCHIVE_DIRECTORY
+        value: /tmp/archive
+      - key: DB_POOL_SIZE
+        value: "3"
+      - key: DB_MAX_OVERFLOW
+        value: "5"
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRATION_MINUTES
+        value: "1440"
+      - key: QUALITY_SCORE_WARNING_THRESHOLD
+        value: "80"
+      - key: QUALITY_SCORE_FAILURE_THRESHOLD
+        value: "50"
+      - key: SECRET_KEY
+        value: PUQcxci0oVVxAwoJ61HP2RmYXgjOGZzMIXYXh8L1FXg
+      - key: JWT_SECRET
+        value: 12xSKl8UYBxlyhzbDq2BxvwbdFCAYOjfjF5pYV-ewsA
+      - key: API_KEY_SALT
+        value: zzQNuUEq1v8Bw8lDA1jOyA
+      - key: DATABASE_URL
+        fromDatabase:
+          name: etl-platform-db
+          property: connectionString
+
+databases:
+  - name: etl-platform-db
+    databaseName: etl_platform
+    user: etl_user
+    plan: free
+    region: oregon
