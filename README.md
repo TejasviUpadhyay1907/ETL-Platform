@@ -302,6 +302,9 @@ pytest tests/unit/ tests/integration/test_api_health.py -q
 | [docs/12_Transformation_Engine.md](docs/12_Transformation_Engine.md) | Transformation engine |
 | [docs/13_Cleaning_Engine.md](docs/13_Cleaning_Engine.md) | Cleaning strategies |
 | [docs/14_Orchestration_Engine.md](docs/14_Orchestration_Engine.md) | Pipeline orchestrator |
+| [docs/15_Warehouse_Loader.md](docs/15_Warehouse_Loader.md) | Warehouse loader internals |
+| [docs/16_API_Platform_Security.md](docs/16_API_Platform_Security.md) | API security design |
+| [docs/17_Operations_Dashboard.md](docs/17_Operations_Dashboard.md) | Dashboard design |
 
 ---
 

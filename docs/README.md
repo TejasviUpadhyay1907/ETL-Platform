@@ -27,14 +27,14 @@
 | [07_Folder_Structure.md](07_Folder_Structure.md) | Project layout decisions |
 | [08_Development_Roadmap.md](08_Development_Roadmap.md) | Phase-by-phase build plan |
 | [09_Database_Design.md](09_Database_Design.md) | 22-table PostgreSQL schema |
-| [09b_Warehouse_Loader.md](09b_Warehouse_Loader.md) | Warehouse loader internals |
 | [10_Ingestion_Engine.md](10_Ingestion_Engine.md) | Ingestion engine design |
-| [10b_API_Platform_Security.md](10b_API_Platform_Security.md) | API security design |
 | [11_Validation_Engine.md](11_Validation_Engine.md) | Validation rule engine |
-| [11b_Operations_Dashboard.md](11b_Operations_Dashboard.md) | Dashboard design |
 | [12_Transformation_Engine.md](12_Transformation_Engine.md) | Transformation engine |
 | [13_Cleaning_Engine.md](13_Cleaning_Engine.md) | Cleaning strategies |
 | [14_Orchestration_Engine.md](14_Orchestration_Engine.md) | Pipeline orchestrator |
+| [15_Warehouse_Loader.md](15_Warehouse_Loader.md) | Warehouse loader internals |
+| [16_API_Platform_Security.md](16_API_Platform_Security.md) | API security design |
+| [17_Operations_Dashboard.md](17_Operations_Dashboard.md) | Dashboard design |
 
 ## Operations & Security
 
