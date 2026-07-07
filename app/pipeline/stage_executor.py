@@ -52,12 +52,18 @@ class StageExecutor:
             from app.core.config import get_config
 
             config = get_config()
-            svc = IngestionService(
-                session=self._session,
-                file_store=RawFileStore(config.upload_directory),
-            )
 
-            if ctx.source_file_path:
+            # If ingestion_event_id is provided, load the already-ingested dataset
+            # instead of re-ingesting (avoids duplicate detection failure)
+            if ctx.ingestion_event_id:
+                ingestion_result = self._load_from_ingestion_event(
+                    ctx.ingestion_event_id, ctx.dataset_type
+                )
+            elif ctx.source_file_path:
+                svc = IngestionService(
+                    session=self._session,
+                    file_store=RawFileStore(config.upload_directory),
+                )
                 ingestion_result = svc.ingest(
                     source_path=Path(ctx.source_file_path),
                     original_filename=ctx.original_filename or Path(ctx.source_file_path).name,
@@ -66,12 +72,11 @@ class StageExecutor:
                     uploaded_by=ctx.triggered_by,
                 )
             else:
-                # No file path provided — create a minimal result for testing
                 from app.ingestion.models import IngestionResult, IngestionStatus
                 ingestion_result = IngestionResult(
                     success=False,
                     status=IngestionStatus.REJECTED,
-                    error_message="No source_file_path provided in pipeline context",
+                    error_message="No source_file_path or ingestion_event_id provided",
                     error_code="NO_SOURCE_FILE",
                 )
 
@@ -313,6 +318,83 @@ class StageExecutor:
             status="running",
             started_at=datetime.now(tz=timezone.utc),
         )
+
+    def _load_from_ingestion_event(self, ingestion_event_id: str, dataset_type: str):
+        """
+        Load an already-ingested dataset from an IngestionEvent record.
+
+        Used when the file was pre-ingested via /ingest/upload and we want
+        to run the pipeline without re-ingesting (avoids duplicate detection).
+        """
+        from app.ingestion.models import (
+            IngestionResult, IngestionStatus, Dataset, DatasetSchema, FileMetadata
+        )
+        from sqlalchemy import select
+        import uuid as _uuid
+        from pathlib import Path
+
+        try:
+            from app.database.models.pipeline.ingestion_event import IngestionEvent
+            ev = self._session.execute(
+                select(IngestionEvent).where(
+                    IngestionEvent.id == _uuid.UUID(ingestion_event_id)
+                )
+            ).scalar_one_or_none()
+
+            if ev is None:
+                return IngestionResult(
+                    success=False,
+                    status=IngestionStatus.REJECTED,
+                    error_message=f"Ingestion event {ingestion_event_id} not found",
+                    error_code="EVENT_NOT_FOUND",
+                )
+
+            # Re-read the stored file to get the DataFrame
+            file_path = Path(ev.file_path) if ev.file_path else None
+
+            if file_path is None or not file_path.exists():
+                # File path not available — try re-reading from stored_filename
+                return IngestionResult(
+                    success=False,
+                    status=IngestionStatus.REJECTED,
+                    error_message=f"Stored file not found for event {ingestion_event_id}",
+                    error_code="FILE_NOT_FOUND",
+                )
+
+            from app.ingestion.readers.reader_factory import ReaderFactory
+            reader = ReaderFactory.get_reader(ev.file_extension)
+            df, schema = reader.read(file_path)
+
+            meta = FileMetadata(
+                original_filename=ev.original_filename,
+                stored_filename=ev.stored_filename,
+                file_path=file_path,
+                file_extension=ev.file_extension,
+                file_size_bytes=ev.file_size_bytes,
+                dataset_type=dataset_type or ev.dataset_type,
+            )
+            dataset = Dataset(
+                metadata=meta,
+                dataframe=df,
+                schema=schema,
+                ingestion_event_id=ingestion_event_id,
+            )
+            return IngestionResult(
+                success=True,
+                status=IngestionStatus.PROCESSED,
+                dataset=dataset,
+                ingestion_event_id=ingestion_event_id,
+                file_metadata=meta,
+            )
+
+        except Exception as exc:
+            logger.warning(f"Failed to load from ingestion event {ingestion_event_id}: {exc}")
+            return IngestionResult(
+                success=False,
+                status=IngestionStatus.REJECTED,
+                error_message=str(exc),
+                error_code="EVENT_LOAD_ERROR",
+            )
 
     def _handle_exception(
         self,

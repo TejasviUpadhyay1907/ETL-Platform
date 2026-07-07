@@ -80,6 +80,7 @@ def run_pipeline(
         dataset_type=request.dataset_type,
         source_file_path=source_file_path,
         original_filename=original_filename,
+        ingestion_event_id=request.ingestion_event_id,
         pipeline_name=request.pipeline_name,
         triggered_by=request.triggered_by,
         trigger_type=request.trigger_type,
