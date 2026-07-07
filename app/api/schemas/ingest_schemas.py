@@ -125,6 +125,7 @@ class IngestionEventResponse(BaseModel):
     id: str
     original_filename: str
     stored_filename: str
+    file_path: str | None         # actual stored path on disk
     file_extension: str
     file_size_bytes: int
     file_hash: str | None
@@ -144,6 +145,7 @@ class IngestionEventResponse(BaseModel):
             id=str(event.id),
             original_filename=event.original_filename,
             stored_filename=event.stored_filename,
+            file_path=str(event.file_path) if event.file_path else None,
             file_extension=event.file_extension,
             file_size_bytes=event.file_size_bytes,
             file_hash=event.file_hash,

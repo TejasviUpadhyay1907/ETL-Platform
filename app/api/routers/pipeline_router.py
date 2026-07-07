@@ -54,11 +54,32 @@ def run_pipeline(
 ) -> APIResponse[PipelineRunResponse]:
     from app.pipeline.trigger_service import PipelineTriggerService
 
+    # If ingestion_event_id provided but no source_file_path, look up the stored path
+    source_file_path = request.source_file_path
+    original_filename = request.original_filename
+
+    if not source_file_path and request.ingestion_event_id:
+        try:
+            from sqlalchemy import select
+            from app.database.models.pipeline.ingestion_event import IngestionEvent
+            import uuid as _uuid
+            ev = db.execute(
+                select(IngestionEvent).where(
+                    IngestionEvent.id == _uuid.UUID(request.ingestion_event_id)
+                )
+            ).scalar_one_or_none()
+            if ev and ev.file_path:
+                source_file_path = str(ev.file_path)
+            if ev and not original_filename:
+                original_filename = ev.original_filename or ""
+        except Exception as exc:
+            logger.warning(f"Could not resolve file path from ingestion event: {exc}")
+
     svc = PipelineTriggerService(db)
     result = svc.trigger(
         dataset_type=request.dataset_type,
-        source_file_path=request.source_file_path,
-        original_filename=request.original_filename,
+        source_file_path=source_file_path,
+        original_filename=original_filename,
         pipeline_name=request.pipeline_name,
         triggered_by=request.triggered_by,
         trigger_type=request.trigger_type,

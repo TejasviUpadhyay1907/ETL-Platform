@@ -116,11 +116,11 @@ if upload_btn and uploaded_file is not None:
                             headers={"Authorization": f"Bearer {token}",
                                      "Content-Type": "application/json"},
                             json={
-                                "dataset_type":     dataset_type,
-                                "pipeline_name":    f"{dataset_type}_pipeline",
-                                "triggered_by":     "dashboard_upload",
-                                "source_file_path": data.get("file_path", ""),
-                                "original_filename": uploaded_file.name,
+                                "dataset_type":       dataset_type,
+                                "pipeline_name":      f"{dataset_type}_pipeline",
+                                "triggered_by":       "dashboard_upload",
+                                "ingestion_event_id": ing_id,
+                                "original_filename":  uploaded_file.name,
                             },
                             timeout=120,
                         )

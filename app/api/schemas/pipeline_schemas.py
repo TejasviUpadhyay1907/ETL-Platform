@@ -16,6 +16,7 @@ class PipelineTriggerRequest(BaseModel):
     dataset_type: str
     source_file_path: str = ""
     original_filename: str = ""
+    ingestion_event_id: str | None = None  # alternative to source_file_path
     pipeline_name: str | None = None
     triggered_by: str = "api"
     trigger_type: str = "manual"
