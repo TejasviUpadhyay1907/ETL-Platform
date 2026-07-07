@@ -5,8 +5,8 @@
 ## Setup (first time only)
 
 ```bash
-git clone https://github.com/your-org/etl-platform.git
-cd etl-platform
+git clone https://github.com/TejasviUpadhyay1907/ETL-Platform.git
+cd ETL-Platform
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env                # pre-configured dev values — edit if needed

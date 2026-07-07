@@ -20,8 +20,8 @@ No Node.js, Java, or other runtimes required.
 ## Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/etl-platform.git
-cd etl-platform
+git clone https://github.com/TejasviUpadhyay1907/ETL-Platform.git
+cd ETL-Platform
 ```
 
 ---

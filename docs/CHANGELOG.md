@@ -135,4 +135,4 @@ Built across 12 phases over a complete engineering lifecycle.
 - v1.3: REST API v2 (backward-compatible)
 - v2.0: Async pipeline execution (asyncio / Ray)
 
-[v1.0.0]: https://github.com/your-org/etl-platform/releases/tag/v1.0.0
+[v1.0.0]: https://github.com/TejasviUpadhyay1907/ETL-Platform/releases/tag/v1.0.0
